@@ -50,6 +50,75 @@ fn main() {
         println!("c : {}, z : {}, heart_eyed_cat : {}", c, z, heart_eyed_cat);
 
     //compound types : group multiple values into one type
+        //The tuple type
+        let tup : (i32, f64, u8) = (500, 6.4, 1);
+
+            //destructuring
+            let (x, y, z) = tup;
+            println!("The value of x,y,and z are : {} {} {}", x,y,z);
+        
+            //accessing tuple elements
+            let five_hundred = tup.0;
+            let six_point_four = tup.1;
+            let one = tup.2;
+            println!("The value of five_hundred, six_point_four, and one are : {} {} {}", five_hundred, six_point_four, one);
+
+        //The array type
+
+        let  a = [1,2,3,4,5];
+        let first = a[0];
+        println!("The value of first is : {}", first);
+        //a[1] = 10; throw error because array is immutable by default
+
+    //Functions
+    print_labeled_measurement(12, 'C');
+    let sum = add_two_numbers(2, 3);
+    println!("The sum of 2 and 3 is : {}", sum);
+
+    //control flow
+        // loops
+            //loop
+            let mut counter = 0;
+            loop {
+                counter += 1;
+                println!("counter : {}", counter);
+                if counter == 10 {
+                    break;
+                }
+            }
+
+            //while
+            let mut number = 3;
+            while number != 0 {
+                println!("{}!", number);
+                number -= 1;
+            }
+            println!("LIFTOFF!!!");
+
+            //for
+            let a = [10, 20, 30, 40, 50];
+            for element in a.iter() {
+                println!("the value is : {}", element);
+            }
+
+            for number in (1..4).rev() {
+                println!("{}!", number);
+            }
+            println!("LIFTOFF!!!");
 
 
 }
+
+//function without return value
+fn print_labeled_measurement(value: i32, unit_label: char) {
+    println!("The measurement is: {value}{unit_label}");
+}
+
+//function with return value
+fn add_two_numbers(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+/*
+    Test comment multi lines and it is working
+*/
