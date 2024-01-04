@@ -30,9 +30,31 @@ fn main() {
     let s4 = String::from("hello");
     let len = calculate_length(&s4);
     println!("The length of '{}' is {}.", s4, len);
+    //mutable reference
+
+    // The rules of references
+        // At any given time, you can have either one mutable reference or any number of immutable references.
+        // References must always be valid.
+
+    // The Slice Type
+    let s5 = String::from("hello world");
+    let hello = &s5[..5]; // same as &s5[0..5]
+
+    let first_word : &str = first_word(&s5);
+    println!("first word is {}", first_word);
+
 
 } // this scope is now over, and s is no longer valid
 
+fn first_word (s: &String) -> &str {
+    let bytes = s.as_bytes();
+    for (i, &item) in bytes.iter().enumerate(){
+        if item == b' '{
+            return &s[0..i];
+        }
+    }
+    &s[..]
+}
 
 fn takes_ownership(some_string: String) { // some_string comes into scope
     println!("{}", some_string);
