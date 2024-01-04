@@ -35,7 +35,7 @@ fn main() {
         _ => (),
     }
 
-    // Consise control flow with if let
+    // Concise control flow with if let
     let some_u8_value = Some(0u8);
     if let Some(3) = some_u8_value {
         println!("Three");
