@@ -60,5 +60,15 @@ fn main() {
         let s = String::from("initial contents"); // create a String from a string literal
 
         // Updating a string
+        let s1 = String::from("Hello, ");
+        let s2 = String::from("world!");
+        let s3 = s1 + &s2; // s1 has been moved here and can no longer be used
+        let s4 = format!("{}-{}", s2, s3); // s1 is still valid here
 
+
+        // Indexing into strings
+        let hello = "Здравствуйте"; // Russian for hello
+        //slice the first character on hello
+        let character = &hello[0..2]; // 2 is the number of bytes for the first character 3
+        println!("{}", character);
 }
