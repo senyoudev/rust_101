@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 fn main() {
     // Vectors 
         // Create a new empty vector
@@ -84,4 +86,39 @@ fn main() {
         }
 
     // Hash Maps
+        // Hash maps store a mapping of keys to values
+        // create a new empty hash map
+        let mut scores = HashMap::new();
+        // insert a key-value pair into the hash map
+        scores.insert(String::from("Blue"), 10);
+        // get a value from the hash map
+        let scoreBlue = scores.get(&String::from("Blue")).copied().unwrap_or(0);
+        let scoreRed = scores.get(&String::from("Red")).copied().unwrap_or(0);
+        println!("scoreBlue = {}", scoreBlue);
+        println!("scoreRed = {}", scoreRed);
+
+        // iterate over hash map
+        for (key, value) in &scores {
+            println!("{}: {}", key, value);
+        }
+
+        // Hash maps and ownership
+        // values that implement the Copy trait are copied into the hash map
+
+        // updating a hash map
+        // overwriting a value
+        scores.insert(String::from("Blue"), 25);
+        println!("{:?}", scores);
+        // only inserting a value if the key has no value
+        scores.entry(String::from("Yellow")).or_insert(50);
+
+        // updating a value based on the old value
+        let text = "hello world wonderful world";
+        let mut map = HashMap::new();
+        for word in text.split_whitespace() {
+            let count = map.entry(word).or_insert(0);
+            *count += 1;
+        }
+        println!("{:?}", map);
+
 }
