@@ -71,4 +71,17 @@ fn main() {
         //slice the first character on hello
         let character = &hello[0..2]; // 2 is the number of bytes for the first character 3
         println!("{}", character);
+
+        // slicing strings
+        let hello = "Здравствуйте";
+        for c in hello.chars() {
+            println!("{}", c);
+        }
+
+        // iterating over bytes
+        for b in hello.bytes() {
+            println!("{}", b);
+        }
+
+    // Hash Maps
 }
