@@ -121,4 +121,41 @@ fn main() {
 
     println!("1 new tweet: {}", tweet.summarize());
 
+
+    // Lifetimes: Ensuring One String Lives as Long as Another
+    let r ; 
+    {
+        let x = 5;
+        r = &x;
+    }
+    //println!("r: {}", r);  r is a reference to x, but x is out of scope
+
+    let x = 5;
+    let r = x; // r is a copy of x
+    println!("x: {}, r: {}", x, r); // x and r are both 5
+
+
+    // Generical lifetime annotation
+    let string1 = String::from("abcd");
+    let string2 = "xyz";
+    let result = longest(string1.as_str(), string2);
+    println!("The longest string is {}", result);
+    // the lifetime of result will be the smaller of the lifetimes of the references passed in.
+
+
+    // Lifetime Elision
+    // The compiler uses three rules to figure out what lifetimes references have when there aren’t explicit annotations.
+    // 1. Each parameter that is a reference gets its own lifetime parameter.
+    // 2. If there is exactly one input lifetime parameter, that lifetime is assigned to all output lifetime parameters.
+    // 3. If there are multiple input lifetime parameters, but one of them is &self or &mut self because this is a method, the lifetime of self is assigned to all output lifetime parameters.
+
+}
+
+
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len(){
+        x
+    } else {
+        y
+    }
 }
