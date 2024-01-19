@@ -1,0 +1,610 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2758
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Bold;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red127\green0\blue85;\red42\green0\blue255;\red0\green192\blue0;
+\red129\green46\blue156;\red63\green127\blue95;\red63\green127\blue95;\red127\green0\blue85;\red42\green0\blue255;
+}
+{\*\expandedcolortbl;;\csgenericrgb\c49804\c0\c33333;\csgenericrgb\c16471\c0\c100000;\csgenericrgb\c0\c75294\c0;
+\csgenericrgb\c50588\c18039\c61176;\csgenericrgb\c24706\c49804\c37255;\csgenericrgb\c24706\c49804\c37255;\csgenericrgb\c49804\c0\c33333;\csgenericrgb\c16471\c0\c100000;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs24 \cf2 query
+\f1\b0 \cf0  GeneratorJava = \
+    MetaUML!Class.allInstances()->forAll(c | c.contenu().writeTo(\cf3 '//Users//younesmeskafe//workspace-papyrus//atltesting//src//'\cf0  + c.name + \cf3 '.java'\cf0 ))\
+	
+\f0\b \cf2 and
+\f1\b0 \cf0 \
+	MetaUML!Enumeration.allInstances()->forAll(en | en.genererEnum().writeTo(\cf3 '//Users//younesmeskafe//workspace-papyrus//atltesting//src//'\cf0  + en.name + \cf3 '.java'\cf0 ))\
+	
+\f0\b \cf2 and
+\f1\b0 \cf0 \
+	MetaUML!Interface.allInstances()->forAll(i | i.contenu().writeTo(\cf3 '//Users//younesmeskafe//workspace-papyrus//atltesting//src//'\cf0  + i.name + \cf3 '.java'\cf0 ))\
+	;\
+\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Interface 
+\f0\b \cf2 def
+\f1\b0 \cf0  : contenu() : \cf4 String\cf0  =\
+    \cf3 'public interface '\cf0  + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .name + \cf3 '\\n\{\\n'\cf0 \
+    + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedOperation->iterate(op; acc: \cf4 String\cf0  = \cf3 '\\t// The list of operations is: \\n'\cf0  | acc + \cf3 '\\t'\cf0  + op.visibility + \cf3 ' '\cf0  + op.getType() + \cf3 ' '\cf0  + op.name + \cf3 '();\\n'\cf0 )\
+    + \cf3 '\\n\}\\n'\cf0 ;\
+\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Property 
+\f0\b \cf2 def
+\f1\b0 \cf0  : getType(): \cf4 String\cf0  = \
+    
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .type.oclIsUndefined() \
+    
+\f0\b \cf2 then
+\f1\b0 \cf0  \
+        \cf3 'Object'\cf0 \
+    
+\f0\b \cf2 else
+\f1\b0 \cf0  \
+        
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .type.name = \cf3 'Real'\cf0  
+\f0\b \cf2 then
+\f1\b0 \cf0  \cf3 'float'\cf0 \
+        
+\f0\b \cf2 else
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .type.name\
+        
+\f0\b \cf2 endif
+\f1\b0 \cf0 \
+    
+\f0\b \cf2 endif
+\f1\b0 \cf0 ;\
+\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Class 
+\f0\b \cf2 def
+\f1\b0 \cf0  : contenu() : \cf4 String\cf0  =\
+    \cf3 'public class '\cf0  + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .name+ 
+\f0\b \cf5 self
+\f1\b0 \cf0 .genererinheritance() + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .genererImplements() +\
+    \cf3 '\\n\{\\n'\cf0 \
+    + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedAttribute->iterate(att; acc: \cf4 String\cf0  = \cf3 '\\t// La liste des attributs est : \\n'\cf0  | acc + \cf3 '\\t'\cf0  + att.visibility + \cf3 ' '\cf0  + att.getType() + \cf3 ' '\cf0  + att.name + \cf3 ';\\n'\cf0 )\
+    + \cf3 '\\n'\cf0 \
+    + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .genererConstructeurSansParams()\
+    + \cf3 '\\n'\cf0 \
+	+ 
+\f0\b \cf5 self
+\f1\b0 \cf0 .genererConstructeur()\
+	+ \cf3 '\\n'\cf0 \
+    + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .genererGetters()\
+    + \cf3 '\\n'\cf0 \
+    + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .genererSetters()\
+    + \cf3 '\\n'\cf0 \
+    + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .genererToString()\
+    + \cf3 '\\n\}\\n'\cf0 ;\
+    \
+    \cf6 --constructeur sans params\cf0 \
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Class 
+\f0\b \cf2 def
+\f1\b0 \cf0 : genererConstructeurSansParams(): \cf4 String\cf0  =\
+	\cf3 '\\n\\t public'\cf0  + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .name + \cf3 '()'\cf0  + \cf3 '\\n\{\\n'\cf0  + \
+	
+\f0\b \cf2 if
+\f1\b0 \cf0 (
+\f0\b \cf5 self
+\f1\b0 \cf0 .general.size() = 1) 
+\f0\b \cf2 then
+\f1\b0 \cf0  \cf3 '\\t super(); \\n'\cf0  \
+	
+\f0\b \cf2 else
+\f1\b0 \cf0  \cf3 ''\cf0 \
+	
+\f0\b \cf2 endif
+\f1\b0 \cf0  +\
+	
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedAttribute->iterate(att;acc :  \cf4 String\cf0 =\cf3 ''\cf0 | acc+ \cf3 '\\t'\cf0  + \cf3 'this.'\cf0  +att.name + \cf3 '='\cf0  + att.initParams() + \cf3 ';'\cf0  + \cf3 '\\n'\cf0  ) + \cf3 '\\t\}'\cf0 \
+;\
+	\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Class 
+\f0\b \cf2 def
+\f1\b0 \cf0  : genererConstructeur():\cf4 String\cf0  =\
+	\cf3 'public '\cf0  + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .name + \cf3 '('\cf0  + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedAttribute -> iterate(a; acc: \cf4 String\cf0  = \cf3 ''\cf0 |\
+	acc + a.getType()+ \cf3 ' '\cf0  +a.name + \cf3 ','\cf0 ).enleverFin(1) +\cf3 ')\\n\\t \{\\n'\cf0 \
+	+ 
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedAttribute->iterate(a; acc: \cf4 String\cf0  = \cf3 ''\cf0 |\
+	acc + \cf3 '\\t\\tthis.'\cf0  + a.name + \cf3 ' = '\cf0  + a.name + \cf3 ';\\n'\cf0 ) + \cf3 '\\t\}'\cf0 \
+	;\
+	\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0   
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Property 
+\f0\b \cf2 def
+\f1\b0 \cf0  : initParams() : \cf4 String\cf0  = \
+	
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .getType() = \cf3 'Object'\cf0  
+\f0\b \cf2 then
+\f1\b0 \cf0  \cf3 'null'\cf0 \
+	
+\f0\b \cf2 else
+\f1\b0 \cf0  
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .getType() = \cf3 'float'\cf0  
+\f0\b \cf2 then
+\f1\b0 \cf0  \cf3 '0.0'\cf0 \
+	
+\f0\b \cf2 else
+\f1\b0 \cf0  
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .getType() = \cf3 'Boolean'\cf0  
+\f0\b \cf2 then
+\f1\b0 \cf0  \cf3 'False'\cf0 \
+	
+\f0\b \cf2 else
+\f1\b0 \cf0  
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .getType() = \cf3 'Integer'\cf0  
+\f0\b \cf2 then
+\f1\b0 \cf0  \cf3 '0'\cf0 \
+	
+\f0\b \cf2 else
+\f1\b0 \cf0  \cf3 'null'\cf0 \
+	
+\f0\b \cf2 endif
+\f1\b0 \cf0 \
+	
+\f0\b \cf2 endif
+\f1\b0 \cf0 \
+	
+\f0\b \cf2 endif
+\f1\b0 \cf0 \
+	
+\f0\b \cf2 endif
+\f1\b0 \cf0 \
+;	\
+	\
+\
+	\
+	\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0   
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Class 
+\f0\b \cf2 def
+\f1\b0 \cf0  :genererinheritance() : \cf4 String\cf0  = \
+	
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .general.size() = 1 \
+	
+\f0\b \cf2 then
+\f1\b0 \cf0 \
+		\cf3 ' extends '\cf0  + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .general.first().name\
+	
+\f0\b \cf2 else
+\f1\b0 \cf0  \
+		\cf3 ''\cf0 \
+	
+\f0\b \cf2 endif
+\f1\b0 \cf0 \
+;\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Class 
+\f0\b \cf2 def
+\f1\b0 \cf0  : genererImplements() : \cf4 String\cf0  = \
+	
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .directlyRealizedInterfaces()->size()>0\
+	
+\f0\b \cf2 then
+\f1\b0 \cf0  \
+		\cf3 ' implements '\cf0  + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .directlyRealizedInterfaces()->iterate(att; acc:\cf4 String\cf0 = \cf3 ''\cf0  | acc+att.name+\cf3 ', '\cf0 ).enleverFin(2)\
+		
+\f0\b \cf2 else
+\f1\b0 \cf0  \cf3 ''\cf0 \
+	
+\f0\b \cf2 endif
+\f1\b0 \cf0 \
+;\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  \cf4 String\cf0  
+\f0\b \cf2 def
+\f1\b0 \cf0 :enleverFin(nbrChar:\cf4 Integer\cf0 ):\cf4 String\cf0 =\
+ 	
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .size()<=nbrChar\
+	
+\f0\b \cf2 then
+\f1\b0 \cf0  \cf3 ''\cf0 \
+	
+\f0\b \cf2 else
+\f1\b0 \cf0 \
+		
+\f0\b \cf5 self
+\f1\b0 \cf0 .substring(1,
+\f0\b \cf5 self
+\f1\b0 \cf0 .size()-nbrChar)\
+		
+\f0\b \cf2 endif
+\f1\b0 \cf0 \
+		;\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Class 
+\f0\b \cf2 def
+\f1\b0 \cf0  : genererSetters(): \cf4 String\cf0  =\
+    
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedAttribute->iterate(att;\
+    acc : \cf4 String\cf0  = \cf3 '\\n\\t// setters:\\n'\cf0  |\
+    acc + \cf3 '\\tpublic void set'\cf0  + att.name + \cf3 '('\cf0  + att.getType() + \cf3 ' '\cf0  + att.name + \cf3 ') \{\\n'\cf0  +\
+    \cf3 '\\t\\tthis.'\cf0  + att.name + \cf3 ' = '\cf0  + att.name + \cf3 ';\\n'\cf0  +\
+    \cf3 '\\t\}\\n'\cf0 \
+);\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Class 
+\f0\b \cf2 def
+\f1\b0 \cf0  : genererToString() : \cf4 String\cf0  =\
+    \cf3 '\\t@Override\\n\\t public String toString() \{\\n'\cf0  +\
+    \cf3 '\\t\\treturn " '\cf0  + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .name + \cf3 '[ " +\\n\\t\\t\\t'\cf0  +\
+    
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedAttribute->iterate(a; acc: \cf4 String\cf0  = \cf3 ''\cf0  |\
+      acc + \cf3 '"'\cf0  + a.name+\cf3 ' = " + '\cf0  + a.name + \cf3 ' + "," + '\cf0  )+\cf3 '\\n\\t\\t"]";'\cf0  +\
+    \cf3 '\\n\\t\};'\cf0 ;\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Class 
+\f0\b \cf2 def
+\f1\b0 \cf0 : genererGetters(): \cf4 String\cf0  =\
+    
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedAttribute->iterate(att; acc: \cf4 String\cf0  = \cf3 '\\n\\t// getters:\\n'\cf0  | \
+    acc + \cf3 '\\tpublic '\cf0 +att.getType()+\cf3 ' get'\cf0 +att.name+\cf3 '()\\n\\t\{ \\n\\t\\treturn this.'\cf0 +att.name+\cf3 ';\\n \\t\}\\n\\t'\cf0 );\
+\
+\
+\
+\
+\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Enumeration 
+\f0\b \cf2 def
+\f1\b0 \cf0 :genererEnum(): \cf4 String\cf0  =\
+	\cf3 'package AppJavaGenerer;\\n\\n'\cf0  +\
+	\
+    \cf3 'public enum '\cf0  + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .name + \cf3 ' \{\\n'\cf0  +\
+        
+\f0\b \cf5 self
+\f1\b0 \cf0 .genererEnumValeurs() +\
+    \cf3 '\}\\n'\cf0 \
+;\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Enumeration 
+\f0\b \cf2 def
+\f1\b0 \cf0 :genererEnumValeurs(): \cf4 String\cf0  =\
+    
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedLiteral->iterate(val; acc: \cf4 String\cf0  = \cf3 ''\cf0  | \
+        acc + \cf3 '\\t'\cf0  + val.name + \cf3 ',\\n'\cf0 \
+    ).enleverFin(2)\
+;\
+\
+\
+\
+\
+====================================================================\
+\
+
+\f0\b \cf2 query
+\f1\b0 \cf0  CompteRenduModeleUMLTP4 =\
+	
+\f0\b \cf5 thisModule
+\f1\b0 \cf0 .bilan().writeTo(\cf3 '//Users//younesmeskafe//workspace-papyrus//atltesting//bilan//bilan.txt'\cf0 );\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 def
+\f1\b0 \cf0  : bilan() : \cf4 String\cf0  = \cf3 'Votre application contient '\cf0 +\
+	MetaUML!Package.allInstances() -> size() + \cf3 ' packages :\\n'\cf0  +\
+	MetaUML!Package.allInstances() -> iterate(p ; acc : \cf4 String\cf0  = \cf3 ''\cf0  | acc + p.contenuPackage() + \cf3 '\\n'\cf0 );\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Package 
+\f0\b \cf2 def
+\f1\b0 \cf0  : contenuPackage() : \cf4 String\cf0  = \cf3 '\\t- Le package '\cf0 +
+\f0\b \cf5 self
+\f1\b0 \cf0 .name + \cf3 ', ce package contient :\\n'\cf0  +\
+	
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedType -> select(c | c.oclIsKindOf(MetaUML!Class)) -> iterate(c; acc : \cf4 String\cf0  =\cf3 ''\cf0  | acc + c.contenuClass() + \cf3 '\\n'\cf0 );\
+\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Class 
+\f0\b \cf2 def
+\f1\b0 \cf0 : contenuClass(): \cf4 String\cf0  = \cf3 '\\t\\t+ La classe '\cf0  + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .name + \cf3 ' cette class contient : \\n'\cf0 \
+	+\cf3 '\\t\\t\\t + '\cf0  + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedAttribute -> size() + \cf3 ' attributs qui sont: '\cf0 + \
+	
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedAttribute -> iterate(att ; acc:\cf4 String\cf0  = \cf3 ''\cf0  |  acc + \cf3 '('\cf0 +att.name+\cf3 ':'\cf0 +att.getCorrectType()+\cf3 '), '\cf0 )\
+	+ \cf3 '.\\n\\t\\t\\t + '\cf0 + 
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedOperation -> size() + \cf3 ' m\'e9thodes qui sont: '\cf0  + \
+	
+\f0\b \cf5 self
+\f1\b0 \cf0 .ownedOperation -> iterate(op ; acc:\cf4 String\cf0  = \cf3 ''\cf0  | acc + op.name+\cf3 ', '\cf0 )+\cf3 '.'\cf0 ;\
+	\
+	\
+
+\f0\b \cf2 helper
+\f1\b0 \cf0  
+\f0\b \cf2 context
+\f1\b0 \cf0  MetaUML!Property 
+\f0\b \cf2 def
+\f1\b0 \cf0 : getCorrectType():\cf4 String\cf0 =\
+	
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .type.oclIsUndefined() 
+\f0\b \cf2 then
+\f1\b0 \cf0  \cf3 'Object'\cf0 \
+	
+\f0\b \cf2 else
+\f1\b0 \cf0  \
+		
+\f0\b \cf2 if
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .type.name = \cf3 'Real'\cf0  
+\f0\b \cf2 then
+\f1\b0 \cf0  \cf3 'float'\cf0 \
+		
+\f0\b \cf2 else
+\f1\b0 \cf0  
+\f0\b \cf5 self
+\f1\b0 \cf0 .type.name\
+		
+\f0\b \cf2 endif
+\f1\b0 \cf0 \
+	
+\f0\b \cf2 endif
+\f1\b0 \cf0 ;\
+\
+\
+\
+==================================================================\
+\
+\pard\pardeftab720\partightenfactor0
+\cf7 -- @nsURI MM=http://www.eclipse.org/uml2/5.0.0/UML\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b \cf8 module
+\f1\b0 \cf0  transformationatl;\
+
+\f0\b \cf8 create
+\f1\b0 \cf0  OUT : MM 
+\f0\b \cf8 refining
+\f1\b0 \cf0  IN : MM;\
+\
+\
+
+\f0\b \cf8 rule
+\f1\b0 \cf0  R1\{\
+	
+\f0\b \cf8 from
+\f1\b0 \cf0  a : MM!Class\
+	
+\f0\b \cf8 to
+\f1\b0 \cf0  b: MM!Class(name<- a.name+\cf9 'younes'\cf0 )\
+\}\
+\
+\
+\
+\
+
+\f0\b \cf8 rule
+\f1\b0 \cf0  R3\{\
+
+\f0\b \cf8 from
+\f1\b0 \cf0  a : MM!Class\
+
+\f0\b \cf8 to
+\f1\b0 \cf0  b : MM!Class(name<- a.name.firstUpper())\
+\}\
+\
+
+\f0\b \cf8 rule
+\f1\b0 \cf0  R4\{\
+	
+\f0\b \cf8 from
+\f1\b0 \cf0  a : MM!Class \
+	
+\f0\b \cf8 to
+\f1\b0 \cf0  b : MM!Class (name<- \
+	
+\f0\b \cf8 if
+\f1\b0 \cf0  a.name.substring(1,1)= \cf9 'e'\cf0  
+\f0\b \cf8 or
+\f1\b0 \cf0  a.name.substring(1,1) = \cf9 'E'\cf0 \
+	   	
+\f0\b \cf8 then
+\f1\b0 \cf0  \
+		 a.name+\cf9 '_meskafe'\cf0 \
+	
+\f0\b \cf8 else
+\f1\b0 \cf0 \
+		a.name+\cf9 '_Younes'\cf0 \
+		\
+	
+\f0\b \cf8 endif
+\f1\b0 \cf0 )\
+	\
+\}\
+\
+
+\f0\b \cf8 rule
+\f1\b0 \cf0  R5 \{\
+	
+\f0\b \cf8 from
+\f1\b0 \cf0  a : MM!Class\
+	
+\f0\b \cf8 to
+\f1\b0 \cf0  b : MM!Class (name<- \
+		
+\f0\b \cf8 if
+\f1\b0 \cf0  a.ownedAttribute.size() = 0\
+		
+\f0\b \cf8 then
+\f1\b0 \cf0 \
+			a.name+\cf9 '_meskafe'\cf0 \
+		
+\f0\b \cf8 else
+\f1\b0 \cf0 \
+			a.name+\cf9 '_Younes'\cf0 \
+		
+\f0\b \cf8 endif
+\f1\b0 \cf0 )\
+\}\
+\
+\
+
+\f0\b \cf8 rule
+\f1\b0 \cf0  CreateAccessMethods \{\
+    
+\f0\b \cf8 from
+\f1\b0 \cf0  a : MM!Property(\
+\pard\pardeftab720\partightenfactor0
+\cf7 --    	not a.class.oclInUndefined()\cf0 \
+		a.association.oclIsUndefined()\
+    )\
+	
+\f0\b \cf8 to
+\f1\b0 \cf0  b : MM!Property(name<- a.name),\
+	getMethod : MM!Operation(\
+		visibility <- \cf9 #public\cf0 ,\
+		name <- \cf9 'get'\cf0 +a.name.R3()\
+	),\
+	setMethod : MM!Operation(\
+		visibility <- \cf9 #public\cf0 ,\
+		name <- \cf9 'set'\cf0 +a.name.R3(),\
+		class <- a.class\
+	)\
+\}\
+\
+\
+\
+}
